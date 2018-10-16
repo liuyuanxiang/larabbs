@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Reply;
+use App\Models\User;
+use App\Models\Topic;
 
 class ReplysTableSeeder extends Seeder
 {
