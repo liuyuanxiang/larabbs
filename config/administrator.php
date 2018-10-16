@@ -65,8 +65,10 @@ return array(
             'permissions',
         ],
         '内容管理' => [
-            'topics' // 对应需要创建的文件：`config/administrator/posts.php`
-        ]
+            'categories',
+            'topics',
+            'replies',
+        ],
     ],
 
     /*

@@ -1,22 +1,22 @@
 <?php
 
-use App\Models\Topic;
+use App\Models\Reply;
 
 return [
-    'title'   => '话题',
-    'single'  => '话题',
-    'model'   => Topic::class,
+    'title'   => '回复',
+    'single'  => '回复',
+    'model'   => Reply::class,
 
     'columns' => [
 
         'id' => [
             'title' => 'ID',
         ],
-        'title' => [
-            'title'    => '话题',
+        'content' => [
+            'title'    => '内容',
             'sortable' => false,
             'output'   => function ($value, $model) {
-                return '<div style="max-width:260px">' . model_link($value, $model) . '</div>';
+                return '<div style="max-width:220px">' . $value . '</div>';
             },
         ],
         'user' => [
@@ -28,15 +28,12 @@ return [
                 return model_link($value, $model->user);
             },
         ],
-        'category' => [
-            'title'    => '分类',
+        'topic' => [
+            'title'    => '话题',
             'sortable' => false,
             'output'   => function ($value, $model) {
-                return model_admin_link($model->category->name, $model->category);
+                return '<div style="max-width:260px">' . model_admin_link($model->topic->title, $model->topic) . '</div>';
             },
-        ],
-        'reply_count' => [
-            'title'    => '评论',
         ],
         'operation' => [
             'title'  => '管理',
@@ -44,42 +41,28 @@ return [
         ],
     ],
     'edit_fields' => [
-        'title' => [
-            'title'    => '标题',
-        ],
         'user' => [
             'title'              => '用户',
             'type'               => 'relationship',
             'name_field'         => 'name',
-
-            // 自动补全，对于大数据量的对应关系，推荐开启自动补全，
-            // 可防止一次性加载对系统造成负担
             'autocomplete'       => true,
-
-            // 自动补全的搜索字段
-            'search_fields'      => ["CONCAT(id, ' ', name)"],
-
-            // 自动补全排序
+            'search_fields'      => array("CONCAT(id, ' ', name)"),
             'options_sort_field' => 'id',
         ],
-        'category' => [
-            'title'              => '分类',
+        'topic' => [
+            'title'              => '话题',
             'type'               => 'relationship',
-            'name_field'         => 'name',
-            'search_fields'      => ["CONCAT(id, ' ', name)"],
+            'name_field'         => 'title',
+            'autocomplete'       => true,
+            'search_fields'      => array("CONCAT(id, ' ', title)"),
             'options_sort_field' => 'id',
         ],
-        'reply_count' => [
-            'title'    => '评论',
-        ],
-        'view_count' => [
-            'title'    => '查看',
+        'content' => [
+            'title'    => '回复内容',
+            'type'     => 'textarea',
         ],
     ],
     'filters' => [
-        'id' => [
-            'title' => '内容 ID',
-        ],
         'user' => [
             'title'              => '用户',
             'type'               => 'relationship',
@@ -88,18 +71,22 @@ return [
             'search_fields'      => array("CONCAT(id, ' ', name)"),
             'options_sort_field' => 'id',
         ],
-        'category' => [
-            'title'              => '分类',
+        'topic' => [
+            'title'              => '话题',
             'type'               => 'relationship',
-            'name_field'         => 'name',
-            'search_fields'      => array("CONCAT(id, ' ', name)"),
+            'name_field'         => 'title',
+            'autocomplete'       => true,
+            'search_fields'      => array("CONCAT(id, ' ', title)"),
             'options_sort_field' => 'id',
+        ],
+        'content' => [
+            'title'    => '回复内容',
         ],
     ],
     'rules'   => [
-        'title' => 'required'
+        'content' => 'required'
     ],
     'messages' => [
-        'title.required' => '请填写标题',
+        'content.required' => '请填写回复内容',
     ],
 ];
