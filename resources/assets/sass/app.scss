@@ -1,17 +1,24 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
-/* universal */
+@import "topic_body";
 
+html {
+    position: relative;
+    min-height: 100% ;
+}
 body {
     font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial,sans-serif;
 }
 
 /* header */
-
 .navbar-static-top {
     border-color: #e7e7e7;
     background-color: #fff;
@@ -33,17 +40,27 @@ body {
         }
     }
 }
-/* Sticky footer styles */
 
-html {
-    position: relative;
-    min-height: 100% ;
+/* Notifications badge */
+
+.notifications-badge {
+    margin-top: -1;
+
+    .badge-fade {
+        background-color: #EBE8E8;
+    }
+
+    .badge-hint {
+        background-color: #d15b47 !important;;
+    }
 }
+
+
+/* Sticky footer styles */
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
-
 .footer {
     position: absolute;
     bottom: 0;
@@ -112,13 +129,13 @@ body {
         font-size: .9em;
         color: #b3b3b3;
     }
-    .rpely-content {
+    .reply-content {
         margin: 6px 0;
     }
 }
 
 /* Topic Index Page */
-.topics-index-page, .categories-show-page, .root-page {
+.topics-index-page, .categories-show-page, .root-page{
     .topic-list {
         .nav > li > a {
             position: relative;
@@ -133,7 +150,7 @@ body {
             font-size:0.9em;
             color: #b3b3b3;
             a {
-                color: #b3b3b3;
+               color: #b3b3b3;
             }
         }
         .badge {
@@ -144,23 +161,6 @@ body {
             margin-bottom: 12px;
             border: 0;
             border-top: 1px solid #dcebf5;
-        }
-    }
-}
-
-/* Topic Show Page */
-
-@import "topic_body";
-
-.topics-show-page {
-
-    .panel {
-        padding: 15px;
-
-        h1 {
-            margin: 0.4em auto 0.6em;
-            font-size: 28px;
-            line-height: 38px;
         }
     }
 }
@@ -178,20 +178,6 @@ body {
     .meta {
         font-size: .9em;
         color: #b3b3b3;
-    }
-}
-
-/* Notifications badge */
-
-.notifications-badge {
-    margin-top: -1;
-
-    .badge-fade {
-        background-color: #EBE8E8;
-    }
-
-    .badge-hint {
-        background-color: #d15b47 !important;;
     }
 }
 

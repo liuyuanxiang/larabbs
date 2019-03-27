@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Models\Topic;
 use App\Models\User;
 use App\Models\Category;
@@ -10,6 +9,7 @@ use App\Models\Link;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use Auth;
 use App\Handlers\ImageUploadHandler;
 
 class TopicsController extends Controller
@@ -19,19 +19,15 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index(Request $request, Topic $topic,User $user,Link $link)
+	public function index(Request $request, Topic $topic, User $user, Link $link)
 	{
-		$topics = $topic->withOrder($request->order)->paginate(20);
-
-		//从缓存中取前6位活跃用户
+		$topics = Topic::with('user', 'category')->withOrder($request->order)->paginate(20);
         $active_users = $user->getActiveUsers();
-
         $links = $link->getAllCached();
-
-		return view('topics.index', compact('topics','active_users','links'));
+		return view('topics.index', compact('topics', 'active_users', 'links'));
 	}
 
-    public function show(Request $request,Topic $topic)
+    public function show(Topic $topic, Request $request)
     {
         // URL 矫正
         if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
@@ -42,25 +38,25 @@ class TopicsController extends Controller
     }
 
 	public function create(Topic $topic)
-	{
+    {
         $categories = Category::all();
-		return view('topics.create_and_edit', compact('topic', 'categories'));
-	}
+
+        return view('topics.create_and_edit', compact('topic', 'categories'));
+    }
 
 	public function store(TopicRequest $request, Topic $topic)
 	{
-		$topic = $topic->fill($request->all());
+		$topic->fill($request->all());
         $topic->user_id = Auth::id();
         $topic->save();
-
-		return redirect()->to($topic->link())->with('message', '创建成功.');
+		return redirect()->to($topic->link())->with('message', '发表成功！');
 	}
 
 	public function edit(Topic $topic)
 	{
         $this->authorize('update', $topic);
         $categories = Category::all();
-		return view('topics.create_and_edit', compact('topic','categories'));
+		return view('topics.create_and_edit', compact('topic', 'categories'));
 	}
 
 	public function update(TopicRequest $request, Topic $topic)
@@ -68,7 +64,7 @@ class TopicsController extends Controller
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
 
-		return redirect()->to($topic->link())->with('message', '更新成功.');
+		return redirect()->to($topic->link())->with('message', '更新成功！');
 	}
 
 	public function destroy(Topic $topic)
@@ -76,7 +72,7 @@ class TopicsController extends Controller
 		$this->authorize('destroy', $topic);
 		$topic->delete();
 
-		return redirect()->route('topics.index')->with('message', '删除成功.');
+		return redirect()->route('topics.index')->with('message', '删除话题成功！');
 	}
 
     public function uploadImage(Request $request, ImageUploadHandler $uploader)
@@ -87,10 +83,11 @@ class TopicsController extends Controller
             'msg'       => '上传失败!',
             'file_path' => ''
         ];
+
         // 判断是否有上传文件，并赋值给 $file
         if ($file = $request->upload_file) {
             // 保存图片到本地
-            $result = $uploader->save($request->upload_file, 'topics', \Auth::id(), 1024);
+            $result = $uploader->save($request->upload_file, 'topics', Auth::id(), 1024);
             // 图片保存成功的话
             if ($result) {
                 $data['file_path'] = $result['path'];

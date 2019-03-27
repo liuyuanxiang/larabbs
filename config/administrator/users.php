@@ -1,5 +1,7 @@
 <?php
+
 use App\Models\User;
+
 return [
     // 页面标题
     'title'   => '用户',

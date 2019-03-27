@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLinksTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->comment('资源的描述')->index();
-            $table->string('link')->comment('资源的链接')->index();
+            $table->string('name')->index()->comment('名称');
+            $table->text('description')->nullable()->comment('描述');
+            $table->integer('post_count')->default(0)->comment('帖子数量');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateLinksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        Schema::dropIfExists('categories');
     }
 }

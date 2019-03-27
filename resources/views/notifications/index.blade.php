@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    我的通知
-@stop
+@section('title', '我的通知')
 
 @section('content')
     <div class="container">
@@ -34,4 +32,4 @@
             </div>
         </div>
     </div>
-@stop
+@endsection

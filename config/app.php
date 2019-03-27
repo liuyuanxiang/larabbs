@@ -65,7 +65,6 @@ return [
     |
     */
 
-    // 'timezone' => 'UTC',
     'timezone' => 'Asia/Shanghai',
 
     /*
@@ -80,7 +79,6 @@ return [
     */
 
     'locale' => 'zh-CN',
-    // 'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -178,10 +176,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-
-        Frozennode\Administrator\AdministratorServiceProvider::class,
 
     ],
 

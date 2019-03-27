@@ -7,22 +7,17 @@ use Carbon\Carbon;
 
 trait LastActivedAtHelper
 {
-    // 缓存相关
+     // 缓存相关
     protected $hash_prefix = 'larabbs_last_actived_at_';
     protected $field_prefix = 'user_';
 
     public function recordLastActivedAt()
     {
-        // 获取今天的日期
-        $date = Carbon::now()->toDateString();
-
-        // Redis 哈希表的命名，如：larabbs_last_actived_at_2017-10-21
-        $hash = $this->getHashFromDateString($date);
+        // 获取今日 Redis 哈希表名称，如：larabbs_last_actived_at_2017-10-21
+        $hash = $this->getHashFromDateString(Carbon::now()->toDateString());
 
         // 字段名称，如：user_1
-        $field = $this->getHashField();;
-
-//        dd(Redis::hGetAll($hash));
+        $field = $this->getHashField();
 
         // 当前时间，如：2017-10-21 08:35:15
         $now = Carbon::now()->toDateTimeString();
@@ -33,11 +28,8 @@ trait LastActivedAtHelper
 
     public function syncUserActivedAt()
     {
-        // 获取昨天的日期，格式如：2017-10-21
-        $yesterday_date = Carbon::yesterday()->toDateString();
-
-        // Redis 哈希表的命名，如：larabbs_last_actived_at_2017-10-21
-        $hash = $this->getHashFromDateString($yesterday_date);
+        // 获取昨日的哈希表名称，如：larabbs_last_actived_at_2017-10-21
+        $hash = $this->getHashFromDateString(Carbon::yesterday()->toDateString());
 
         // 从 Redis 中获取所有哈希表里的数据
         $dates = Redis::hGetAll($hash);
@@ -60,11 +52,8 @@ trait LastActivedAtHelper
 
     public function getLastActivedAtAttribute($value)
     {
-        // 获取今天的日期
-        $date = Carbon::now()->toDateString();
-
-        // Redis 哈希表的命名，如：larabbs_last_actived_at_2017-10-21
-        $hash = $this->getHashFromDateString($date);
+        // 获取今日对应的哈希表名称
+        $hash = $this->getHashFromDateString(Carbon::now()->toDateString());
 
         // 字段名称，如：user_1
         $field = $this->getHashField();
@@ -76,7 +65,7 @@ trait LastActivedAtHelper
         if ($datetime) {
             return new Carbon($datetime);
         } else {
-            // 否则使用用户注册时间
+        // 否则使用用户注册时间
             return $this->created_at;
         }
     }

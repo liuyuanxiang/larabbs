@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Models\Reply;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ReplyRequest;
+use Auth;
 
 class RepliesController extends Controller
 {
@@ -15,21 +13,21 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(ReplyRequest $request, Reply $reply)
-    {
-        $reply->content = $request->content;
-        $reply->user_id = Auth::id();
-        $reply->topic_id = $request->topic_id;
+	public function store(ReplyRequest $request, Reply $reply)
+	{
+        $reply->content = $request->input('content');
+        $reply->topic_id = $request->input('topic_id');
+		$reply->user_id = Auth::id();
         $reply->save();
 
-        return redirect()->to($reply->topic->link())->with('success', '创建成功！');
-    }
+        return redirect()->to($reply->topic->link())->with('success', '发表成功！');
+	}
 
-    public function destroy(Reply $reply)
-    {
-        $this->authorize('destroy', $reply);
-        $reply->delete();
+	public function destroy(Reply $reply)
+	{
+		$this->authorize('destroy', $reply);
+		$reply->delete();
 
-        return redirect()->to($reply->topic->link())->with('success','成功删除回复！');
-    }
+		return redirect()->to($reply->topic->link())->with('message', '删除成功！');
+	}
 }

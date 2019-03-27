@@ -16,14 +16,4 @@ class UserObserver
             $user->avatar = 'https://fsdhubcdn.phphub.org/uploads/images/201710/30/1/TrJS40Ey5k.png';
         }
     }
-
-    public function creating(User $user)
-    {
-        //
-    }
-
-    public function updating(User $user)
-    {
-        //
-    }
 }

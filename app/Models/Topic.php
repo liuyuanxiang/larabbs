@@ -4,32 +4,42 @@ namespace App\Models;
 
 class Topic extends Model
 {
+                                                            //摘要    seourl
     protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo('App\Models\Category');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
     }
 
     public function scopeWithOrder($query, $order)
     {
-        // 不同的排序，使用不同的数据读取逻辑
         switch ($order) {
             case 'recent':
-                $query->recent();
+                $query = $this->recent();
                 break;
 
             default:
-                $query->recentReplied();
+                $query = $this->recentReplied();
                 break;
         }
-        // 预加载防止 N+1 问题
+
         return $query->with('user', 'category');
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 
     public function scopeRecentReplied($query)
@@ -39,19 +49,8 @@ class Topic extends Model
         return $query->orderBy('updated_at', 'desc');
     }
 
-    public function scopeRecent($query)
-    {
-        // 按照创建时间排序
-        return $query->orderBy('created_at', 'desc');
-    }
-
     public function link($params = [])
     {
         return route('topics.show', array_merge([$this->id, $this->slug], $params));
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(Reply::class);
     }
 }

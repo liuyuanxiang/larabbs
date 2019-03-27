@@ -47,17 +47,17 @@ class SlugTranslateHandler
         获取结果，如果请求成功，dd($result) 结果如下：
 
         array:3 [▼
-        "from" => "zh"
-        "to" => "en"
-        "trans_result" => array:1 [▼
-        0 => array:2 [▼
-        "src" => "XSS 安全漏洞"
-        "dst" => "XSS security vulnerability"
-        ]
-        ]
+            "from" => "zh"
+            "to" => "en"
+            "trans_result" => array:1 [▼
+                0 => array:2 [▼
+                    "src" => "XSS 安全漏洞"
+                    "dst" => "XSS security vulnerability"
+                ]
+            ]
         ]
 
-         **/
+        **/
 
         // 尝试获取获取翻译结果
         if (isset($result['trans_result'][0]['dst'])) {

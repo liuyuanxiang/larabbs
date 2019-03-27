@@ -25,14 +25,14 @@ return [
             'output'   => function ($value, $model) {
                 $avatar = $model->user->avatar;
                 $value = empty($avatar) ? 'N/A' : '<img src="'.$avatar.'" style="height:22px;width:22px"> ' . $model->user->name;
-                return model_link($value, $model->user);
+                return model_link($value, $model);
             },
         ],
         'topic' => [
             'title'    => '话题',
             'sortable' => false,
             'output'   => function ($value, $model) {
-                return '<div style="max-width:260px">' . model_admin_link($model->topic->title, $model->topic) . '</div>';
+                return '<div style="max-width:260px">' . model_link(e($model->topic->title), $model->topic) . '</div>';
             },
         ],
         'operation' => [

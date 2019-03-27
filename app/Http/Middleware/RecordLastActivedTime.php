@@ -21,7 +21,6 @@ class RecordLastActivedTime
             // 记录最后登录时间
             Auth::user()->recordLastActivedAt();
         }
-
         return $next($request);
     }
 }

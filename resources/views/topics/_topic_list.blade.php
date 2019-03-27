@@ -15,7 +15,7 @@
                         <a href="{{ $topic->link() }}" title="{{ $topic->title }}">
                             {{ $topic->title }}
                         </a>
-                        <a class="pull-right" href="{{ $topic->link() }}" >
+                        <a class="pull-right" href="{{ route('topics.show', [$topic->id]) }}" >
                             <span class="badge"> {{ $topic->reply_count }} </span>
                         </a>
                     </div>
@@ -24,7 +24,7 @@
 
                         <a href="{{ route('categories.show', $topic->category->id) }}" title="{{ $topic->category->name }}">
                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-                            {{ $topic->category->name }}
+                             {{ $topic->category->name }}
                         </a>
 
                         <span> • </span>
@@ -48,5 +48,5 @@
     </ul>
 
 @else
-    <div class="empty-block">暂无数据 ~_~ </div>
+   <div class="empty-block">暂无数据 ~_~ </div>
 @endif
